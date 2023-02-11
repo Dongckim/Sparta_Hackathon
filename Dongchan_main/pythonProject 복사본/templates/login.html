@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>로그인</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cute+Font&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 3px;
+            font-size: 25px;
+        }
+        body{
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url("https://image.imnews.imbc.com/news/2023/world/article/__icsFiles/afieldfile/2023/02/10/20230210_kmj_09.jpg");
+            background-size: cover;
+            background-position: center;
+
+
+        }
+     .wrap {
+         width: 500px;
+         margin: auto;
+         background-color: transparent;
+         margin-bottom: 40px;
+
+     }
+     .star {
+         color: red;
+     }
+
+     .loginbt {
+        width: 100px;
+        margin : 0px 5px 0px 0px;
+        background-color: transparent;
+        color: white;
+         border: 2px solid white;
+         border-radius: 8px;
+         padding: 10px;
+     }
+     .creatbt {
+         background-color: transparent;
+         color: white;
+         border-radius: 8px;
+         padding: 10px;
+         border: 2px solid white;
+     }
+     .fpw {
+         color: blue;
+     }
+     .loginins {
+         color: red;
+         font-size: 50px;
+     }
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function login() {
+            let id = $('#loginid').val()
+            let pw = $('#loginpw').val()
+            $.ajax({
+                type: "POST",
+                url: "/login",
+                data: {id_give: id, pw_give: pw},
+                success: function (response) {
+                    alert(response['msg'])
+                    location.href = '/'
+                }
+            });
+        }
+        // function create() {
+        //
+        // }
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <div>
+            <h2 class="loginins">Login</h2>
+            <h3 style="color: white">To help Turkey, please login first. If you are not registered yet, click "New user" and follow the instructions to create an account.</h3>
+        </div>
+            <p style="color: white"><span class="star">*</span>User Name</p>
+            <p><input id="loginid" type="text" placeholder="user name"/></p>
+            <p style="color: white"><span class="star">*</span>Password</p>
+            <p><input id="loginpw" type="text" placeholder="password"/></p>
+            <a class="fpw", href="">Forgot your password?</a>
+        <p></p>
+            <button onclick="login()" class="loginbt">Login</button>
+            <button onclick="location.href='/signupPage'" class="creatbt">New User</button>
+    </div>
+
+</body>
+</html>

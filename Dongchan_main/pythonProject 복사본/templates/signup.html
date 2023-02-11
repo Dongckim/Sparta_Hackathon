@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        .mypic {
+            width: 100%;
+            height: 100%;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url('http://www.ikbc.co.kr/data/kbc/image/2023/02/07/kbc202302070004.800x.9.jpg');
+            background-position: center;
+            background-size: cover;
+
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .singUpPage {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            margin-top: 5%;
+            padding: 190px 150px 100px 150px;
+
+            width: 95%;
+            box-shadow: 0px 0px 20px 0px white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .singUpPage > h2 {
+            font-family: 'Anton', sans-serif;
+            color: white;
+            font-size: xxx-large;
+            letter-spacing: 10px;
+
+            margin-top: 2%;
+            position: absolute;
+            top: 15%;
+        }
+        .singUpPage > h3{
+            position: absolute;
+            top: 31%;
+        }
+        .form-control{
+            position: relative;
+            right: 57px;
+            width: 150%;
+            height: 45px;
+            margin-bottom: 10px;
+        }
+        .mybtn2{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 120%;
+            margin-top: 20px;
+        }
+        .mybtn2 > button{
+            margin-right: 12px;
+            width: 153px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function checkInput(count) {
+
+            if ("" == $("#input_id").val()) {
+                alert("ID를 입력해주세요.")
+                count++;
+            }
+
+            if ("" == $("#input_pw").val() || "" == $("#input_pw2").val()) {
+                alert("PW를 입력해주세요.")
+                count++;
+            } else if ($("#input_pw2").val() != $("#input_pw").val()) {
+                alert("PW가 일치하지 않습니다.")
+                count++;
+            }
+
+            if ("" == $("#input_name").val()) {
+                alert("이름을 입력해주세요")
+                count++;
+            }
+            if (count == 0) {
+                sing_up()
+            }
+        }
+
+        function checkId(num) {
+
+            $.ajax({
+                type: "GET",
+                url: "/checkId",
+                data: {},
+                success: function (response) {
+                    if ("" == $("#input_id").val()) {
+                        alert("ID를 입력해주세요")
+                    } else {
+                        let rows = response['users']
+                        let count = 0;
+
+                        for (let i = 0; i < rows.length; i++) {
+                            let id = rows[i]['userId']
+                            if (id == $("#input_id").val()) {
+                                count++;
+                            }
+                        }
+
+                        if (count > 0) {
+                            alert("동일한 ID가 존재합니다");
+                            window.location.reload()
+                        } else {
+                            if (num != 0) {
+                                alert("사용가능한 ID입니다");
+                            } else {
+                                checkInput(0)
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        function sing_up() {
+
+            let name = $("#input_name").val();
+            let id = $("#input_id").val();
+            let pw = $("#input_pw").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/create",
+                data: {give_name: name, give_id: id, give_pw: pw},
+                success: function (response) {
+                    alert(response["msg"])
+                    location.href ='/'
+                }
+            });
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+<div class="mypic">
+    <form>
+        <div class="singUpPage">
+            <h2>Sign Up</h2>
+            <h3>지금 바로 함께해 주세요.</h3>
+            <div>
+                <input id="input_id" class="form-control" type="text" placeholder="ID를 입력하세요.">
+            </div>
+            <div>
+                <div id="singUpPage2">
+                    <input id="input_pw" class="form-control" type="password" placeholder="PW를 입력하세요.">
+                    <input type="password" class="form-control" id="input_pw2" placeholder="PW를 재입력하세요" .>
+                    <input id="input_name" class="form-control" type="text" placeholder="사용하실 이름을 적어주세요.">
+                </div>
+            </div>
+            <div class = mybtn2>
+                <button onclick="checkId()" type="button" class="btn btn-outline-light">ID 중복확인</button>
+                <button onclick="checkId(0)" type="button" class="btn btn-outline-light">회원가입</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
