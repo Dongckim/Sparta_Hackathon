@@ -137,7 +137,12 @@ def support_create():
     for i in user_list:
         if id_receive == i['userId'] and pw_receive == i['userPw']:
             amount_receive_sum = i['supportAmount'] + int(amount_receive)
-            db.users.update_one({'userId': id_receive}, {'$set': {'supportAmount': amount_receive_sum}})
+            doc = {
+                'userId': id_receive,
+                'supportAmount': amount_receive_sum
+            }
+
+            db.users.insert_one(doc)
             return jsonify({'msg': '후원 완료!!!'})
 
     return jsonify({'msg': '정보를 입력하세요.'})

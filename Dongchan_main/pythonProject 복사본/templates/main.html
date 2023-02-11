@@ -17,41 +17,6 @@ crossorigin="anonymous"></script>
     $(document).ready(function () {
       show_board()
     });
-    $(function () {
-      $.ajax({
-        type: 'GET',
-        url: '/main',
-        data: {},
-        success: function (response) {
-          let rows = response['users']
-          let num = 0
-          // console.log(rows)
-          for (let i = 0; i < rows.length; i++) {
-            num += 1
-            let userId = rows[i]['userId']
-            let supportAmount = rows[i]['supportAmount ']
-            console.log(num, userId, supportAmount)
-
-            let temp_html = `<div class="modal_content"
-                                                 title="클릭하면 창이 닫힙니다.">
-                                                ${num} ${userId} ${supportAmount}
-                                            </div>`
-            $('#modal_white').append(temp_html)
-          }
-        }
-      }) //ajax
-      $("#modal_open").click(function () {
-        $(".modal_black").fadeIn();
-      }); //로그인버튼을 누르면 모달창 생성
-      $("#modal_close").click(function () {
-        $(".modal_black").fadeOut(); //닫기를 누르면 모달창 사라짐
-      });
-    });
-
-    $(function (){
-
-    })
-
      function search_new() {
             $('#data').empty()
 
@@ -337,15 +302,12 @@ crossorigin="anonymous"></script>
   <h1 class=desc>You can sponsor with money and leave supporting message on the cheering board. </h1>
   <table class="table1" id="table1"></table>
   <table class="table2" id="table2"></table>
+
   <div class=mybtns>
-    <button type="button" class="btn btn-outline-light"> 후원하기 </button>
-    <div class="modal_black">
-      <div class="modal_white" id="modal_white">
-        <button type="button" class="btn btn-primary btn-lg" id="modal_close" style = "color: black">CLOSE</button>
-      </div>
-    </div>
-    <button type="button" class="btn btn-outline-light" id="modal_open">후원 랭킹</button>
+    <button type="button" class="btn btn-outline-light" id="modal_open"> 후원하기</button>
+    <button type="button" class="btn btn-primary btn-sm" id="modal_rank">후원 랭킹</button>
   </div>
+
   <div class="modal_box">
     <div class="modal_black" id="modal_black">
       <div class="modal_white" id="modal_white">
@@ -371,6 +333,9 @@ crossorigin="anonymous"></script>
     </div>
 
   </div>
+</div>
+
+</div>
 </div>
 </body>
 
